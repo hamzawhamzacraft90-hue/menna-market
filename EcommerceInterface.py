@@ -102,16 +102,20 @@ if 'authenticated_user' not in st.session_state:
 
     st.write("---")
     
-    # السؤال الفكاهي
+    # السؤال الفكاهي مع إضافة طه التاجر الكبير
     selected_child = st.selectbox(
         "🤔 أنت ابن مين من عيال دعاء يلا؟", 
-        ["اضغط هنا واثبت هويتك حالا..", "1- منة", "2- يمنى", "3- عبد الحميد", "4- حمزة", "5- علي"]
+        ["اضغط هنا واثبت هويتك حالا..", "1- منة", "2- يمنى", "3- عبد الحميد", "4- حمزة", "5- علي", "6- التاجر طه 😎"]
     )
     
     if st.button("🚀 ارفع الحاجز وافتح المخزن"):
         if selected_child != "اضغط هنا واثبت هويتك حالا..":
             # تنظيف الاسم المعروض
-            clean_name = selected_child.split("- ")[1]
+            if "التاجر" in selected_child:
+                clean_name = "التاجر طه واصل"
+            else:
+                clean_name = selected_child.split("- ")[1]
+                
             st.session_state['authenticated_user'] = f"الإدارة: {clean_name}"
             st.session_state['last_login_time'] = datetime.now().strftime("%H:%M:%S")
             st.session_state['total_visitors'] += 1
@@ -127,15 +131,21 @@ else:
     # هيدر الموقع الرسمي لـ ELRAWY MARKET
     st.markdown("<div class='main-header'><h1 style='color: #FFFFFF; font-weight:900; letter-spacing: 2px; margin:0;'>🟢 ELRAWY MARKET</h1><p style='color: #00A884; font-weight:600; margin:5px 0 0 0;'>ENTERPRISE MANAGEMENT SYSTEM</p></div>", unsafe_allow_html=True)
 
-    # 📊 عرض شريط مراقبة الأمان والنشاط الحقيقي 100% بناءً على الدخول
-    st.markdown("<h5 style='color: #8696A0; margin-bottom: 15px;'>🛡️ سجل نشاط حركة النظام الحية:</h5>", unsafe_allow_html=True)
-    col_v1, col_v2, col_v3 = st.columns(3)
+    # 📊 عرض شريط مراقبة الأمان والنشاط الحقيقي مع كارت "حالة طه"
+    st.markdown("<h5 style='color: #8696A0; margin-bottom: 15px;'>🛡️ سجل نشاط حركة النظام الحية وحالة التجار:</h5>", unsafe_allow_html=True)
+    col_v1, col_v2, col_v3, col_v4 = st.columns(4) # زودنا عمود رابع مخصوص لطه
     with col_v1:
         st.metric(label="👥 إجمالي عدد فتحات اللوحة", value=f"{st.session_state['total_visitors']} مرة")
     with col_v2:
         st.metric(label="👤 آخر واحد من العيلة مسك الشغل", value=st.session_state['authenticated_user'])
     with col_v3:
         st.metric(label="⏰ ساعة كبس الدخول بالثانية", value=st.session_state['last_login_time'])
+    with col_v4:
+        # 🏃‍♂️ هنا كارت طه الأسطوري المخصص للحالة!
+        st.metric(label="🏃‍♂️ الوضع الحالي للتاجر طه", value="في مشوار 🗺️", delta="تيته وعمرو باعتينه")
+        
+    # حقن جملتك بالملي تحت كارت طه مباشرة عشان تظهر بروقان
+    st.markdown("<p style='color: #FFD700; font-size: 0.85rem; text-align: left; margin-top: -10px; direction: ltr;'>*(شوف انت اللي عايزه بنفسك)*</p>", unsafe_allow_html=True)
 
     st.write("---")
 
@@ -143,7 +153,7 @@ else:
 
     with tab1:
         if not df.empty:
-            # 📊 [مرفوع هنا] لوحة التقارير والاستعلامات الذكية أونلاين
+            # 📊 لوحة التقارير والاستعلامات الذكية أونلاين
             st.markdown("<h2 style='color: #00A884; text-align: center;'>📊 لوحة التقارير والاستعلامات الذكية</h2>", unsafe_allow_html=True)
             col_q1, col_q2, col_q3 = st.columns(3)
             col_q4, col_q5, col_q6 = st.columns(3)
