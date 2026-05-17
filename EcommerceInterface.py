@@ -72,9 +72,12 @@ dark_modern_style = """
 """
 st.markdown(dark_modern_style, unsafe_allow_html=True)
 
-# 3. إعداد العداد العام وقاعدة البيانات في الخلفية
+# 3. إعداد العداد العام وقاعدة البيانات وسلة التسوق في الـ session_state
 if 'total_visitors' not in st.session_state:
     st.session_state['total_visitors'] = 150  # عداد أساسي ترحيبي
+
+if 'cart' not in st.session_state:
+    st.session_state['cart'] = [] # سلة التسوق الذكية للبيت
 
 if 'cloud_db' not in st.session_state:
     st.session_state['cloud_db'] = pd.DataFrame([
@@ -141,7 +144,6 @@ else:
     with col_v3:
         st.metric(label="⏰ ساعة كبس الدخول", value=st.session_state['last_login_time'])
     with col_v4:
-        # 🔥 هنا دمجنا الجملة بالكامل جوه الكارت بشكل شيك جداً
         st.metric(
             label="🏃‍♂️ التاجر طه (شوف أنت عايزه بنفسك)", 
             value="في مشوار 🗺️", 
@@ -177,6 +179,69 @@ else:
                 elif q == 'q5': st.metric("إجمالي رأس مال المخزن", f"{df['Price'].sum()} ج.م")
                 elif q == 'q6': st.dataframe(df[df['Price'].between(15.00, 50.00)], use_container_width=True)
                 st.write("---")
+
+            # 🛒 [جديد] نظام سلة التسوق الذكية للبيت وحساب الفاتورة فوراً
+            st.markdown("<h3 style='color: #25D366; text-align: center;'>🛒 سلة تسوق عيــال دعــاء</h3>", unsafe_allow_html=True)
+            
+            col_cart1, col_cart2 = st.columns([2, 1])
+            
+            with col_cart1:
+                # قائمة منسدلة بالمنتجات المتاحة للشراء
+                product_options = [f"{row['PName']} ({row['Price']} ج.م)" for _, row in df.iterrows()]
+                selected_prod_text = st.selectbox("🛍️ اختار السلعة اللي عايز تسحبها للبيت:", product_options)
+                
+            with col_cart2:
+                quantity = st.number_input("🔢 الكمية المطلوبة:", min_value=1, step=1, value=1)
+                
+            col_btn1, col_btn2 = st.columns(2)
+            with col_btn1:
+                if st.button("➕ ضيف الصنف ده في السلة حالا"):
+                    # استخراج اسم المنتج الحقيقي والسعر من الاختيار
+                    selected_index = product_options.index(selected_prod_text)
+                    prod_row = df.iloc[selected_index]
+                    
+                    # إضافة عنصر للسلة
+                    st.session_state['cart'].append({
+                        'المنتج': prod_row['PName'],
+                        'سعر الوحدة': prod_row['Price'],
+                        'الكمية': quantity,
+                        'إجمالي الصنف': prod_row['Price'] * quantity
+                    })
+                    st.success(f"🧺 تم إضافة {quantity} من ({prod_row['PName']}) في السلة!")
+                    st.rerun()
+                    
+            with col_btn2:
+                if st.button("🗑️ فضّي السلة وابدأ من جديد"):
+                    st.session_state['cart'] = []
+                    st.info("🧹 تم تصفير وتفريغ سلة التسوق بالكامل!")
+                    st.rerun()
+            
+            # عرض جدول السلة الحالي لو مش فاضية وحساب اجمالي الفاتورة
+            if st.session_state['cart']:
+                cart_df = pd.DataFrame(st.session_state['cart'])
+                st.markdown("<h5 style='color: #00A884;'>📋 كشف حساب السلة الحالية:</h5>", unsafe_allow_html=True)
+                st.dataframe(cart_df, use_container_width=True)
+                
+                # حساب الإجمالي الكلي للحساب
+                total_cart_price = cart_df['إجمالي الصنف'].sum()
+                
+                # عرض إجمالي الحساب والتنبيه الكوميدي الصارم
+                col_total, col_warning = st.columns([1, 2])
+                with col_total:
+                    st.metric(label="💰 إجمالي الحساب الكلي للفاتورة", value=f"{total_cart_price} ج.م")
+                with col_warning:
+                    # ⚠️ جملتك المطلوبة هنا بستايل ناري كوميدي ومحفور
+                    st.markdown(
+                        f"<div style='background-color:#111B21; border-right: 5px solid #FF2E74; padding:15px; border-radius:8px; margin-top:10px;'>"
+                        f"<h4 style='color:#FF2E74; margin:0;'>🚫 مفيش شكك وعالنوته تاني!</h4>"
+                        f"<p style='color:#E9EDEF; margin:5px 0 0 0; font-size:0.95rem;'>تنبيه الإدارة العليا: الحساب كاش فوري، ممنوع كتابة أي مديونيات على النوتة منعاً لقلب نظام الماركت! 😉</p>"
+                        f"</div>", 
+                        unsafe_allow_html=True
+                    )
+            else:
+                st.info("🧺 السلة فاضية حالياً.. اختار منتج واملأ السلة بروقان!")
+                
+            st.write("---")
 
             # 📊 كروت الإحصائيات العامة للمخزون
             col1, col2, col3 = st.columns(3)
