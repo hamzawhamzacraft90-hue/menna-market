@@ -102,7 +102,7 @@ if 'authenticated_user' not in st.session_state:
 
     st.write("---")
     
-    # السؤال الفكاهي مع إضافة طه التاجر الكبير
+    # السؤال الفكاهي
     selected_child = st.selectbox(
         "🤔 أنت ابن مين من عيال دعاء يلا؟", 
         ["اضغط هنا واثبت هويتك حالا..", "1- منة", "2- يمنى", "3- عبد الحميد", "4- حمزة", "5- علي", "6- التاجر طه 😎"]
@@ -131,22 +131,23 @@ else:
     # هيدر الموقع الرسمي لـ ELRAWY MARKET
     st.markdown("<div class='main-header'><h1 style='color: #FFFFFF; font-weight:900; letter-spacing: 2px; margin:0;'>🟢 ELRAWY MARKET</h1><p style='color: #00A884; font-weight:600; margin:5px 0 0 0;'>ENTERPRISE MANAGEMENT SYSTEM</p></div>", unsafe_allow_html=True)
 
-    # 📊 عرض شريط مراقبة الأمان والنشاط الحقيقي مع كارت "حالة طه"
+    # 📊 عرض شريط مراقبة الأمان والنشاط الحقيقي مع كارت طه المدمج بالكامل
     st.markdown("<h5 style='color: #8696A0; margin-bottom: 15px;'>🛡️ سجل نشاط حركة النظام الحية وحالة التجار:</h5>", unsafe_allow_html=True)
-    col_v1, col_v2, col_v3, col_v4 = st.columns(4) # زودنا عمود رابع مخصوص لطه
+    col_v1, col_v2, col_v3, col_v4 = st.columns(4)
     with col_v1:
         st.metric(label="👥 إجمالي عدد فتحات اللوحة", value=f"{st.session_state['total_visitors']} مرة")
     with col_v2:
-        st.metric(label="👤 آخر واحد من العيلة مسك الشغل", value=st.session_state['authenticated_user'])
+        st.metric(label="👤 آخر واحد مسك الشغل", value=st.session_state['authenticated_user'])
     with col_v3:
-        st.metric(label="⏰ ساعة كبس الدخول بالثانية", value=st.session_state['last_login_time'])
+        st.metric(label="⏰ ساعة كبس الدخول", value=st.session_state['last_login_time'])
     with col_v4:
-        # 🏃‍♂️ هنا كارت طه الأسطوري المخصص للحالة!
-        st.metric(label="🏃‍♂️ الوضع الحالي للتاجر طه", value="في مشوار 🗺️", delta="تيته وعمرو باعتينه")
+        # 🔥 هنا دمجنا الجملة بالكامل جوه الكارت بشكل شيك جداً
+        st.metric(
+            label="🏃‍♂️ التاجر طه (شوف أنت عايزه بنفسك)", 
+            value="في مشوار 🗺️", 
+            delta="تيته وعمرو باعتينه"
+        )
         
-    # حقن جملتك بالملي تحت كارت طه مباشرة عشان تظهر بروقان
-    st.markdown("<p style='color: #FFD700; font-size: 0.85rem; text-align: left; margin-top: -10px; direction: ltr;'>*(شوف انت اللي عايزه بنفسك)*</p>", unsafe_allow_html=True)
-
     st.write("---")
 
     tab1, tab2 = st.tabs(["📋 لوحة التحكم الرقمية", "➕ إضافة صنف جديد"])
