@@ -143,6 +143,31 @@ else:
 
     with tab1:
         if not df.empty:
+            # 📊 [مرفوع هنا] لوحة التقارير والاستعلامات الذكية أونلاين
+            st.markdown("<h2 style='color: #00A884; text-align: center;'>📊 لوحة التقارير والاستعلامات الذكية</h2>", unsafe_allow_html=True)
+            col_q1, col_q2, col_q3 = st.columns(3)
+            col_q4, col_q5, col_q6 = st.columns(3)
+
+            if col_q1.button("🪙 المنتجات الشعبية الاقتصاديّة (< 20 ج.م)"): st.session_state['aq'] = 'q1'
+            if col_q2.button("📈 ترتيب المخزن (من الأغلى للأرخص)"): st.session_state['aq'] = 'q2'
+            if col_q3.button("☕ عرض عائلة ومنتجات النسكافيه"): st.session_state['aq'] = 'q3'
+            if col_q4.button("📊 حساب متوسط أسعار السلع"): st.session_state['aq'] = 'q4'
+            if col_q5.button("💰 حساب القيمة الماليّة للماركت"): st.session_state['aq'] = 'q5'
+            if col_q6.button("🍉 المنتجات المتوسطة (15 إلى 50 ج.م)"): st.session_state['aq'] = 'q6'
+
+            # عرض نتيجة الاستعلام المختار فوراً تحت الأزرار مباشرة وقبل كروت الإحصائيات
+            if 'aq' in st.session_state:
+                q = st.session_state['aq']
+                st.markdown("<h5 style='color: #00A884;'>📊 نتيجة الاستعلام المختار حالياً:</h5>", unsafe_allow_html=True)
+                if q == 'q1': st.dataframe(df[df['Price'] < 20.00], use_container_width=True)
+                elif q == 'q2': st.dataframe(df.sort_values(by='Price', ascending=False), use_container_width=True)
+                elif q == 'q3': st.dataframe(df[df['PName'].str.contains('نسكافيه', case=False, na=False)], use_container_width=True)
+                elif q == 'q4': st.metric("متوسط أسعار السلع", f"{round(df['Price'].mean(), 2)} ج.م")
+                elif q == 'q5': st.metric("إجمالي رأس مال المخزن", f"{df['Price'].sum()} ج.م")
+                elif q == 'q6': st.dataframe(df[df['Price'].between(15.00, 50.00)], use_container_width=True)
+                st.write("---")
+
+            # 📊 كروت الإحصائيات العامة للمخزون
             col1, col2, col3 = st.columns(3)
             col1.metric(label="📊 أعلى قيمة صنف مخزون", value=f"{df['Price'].max()} ج.م")
             col2.metric(label="📊 الصنف الأكثر اقتصاداً", value=f"{df['Price'].min()} ج.م")
@@ -188,25 +213,3 @@ else:
                     st.session_state['cloud_db'] = pd.concat([df, new_row], ignore_index=True)
                     st.success(f"🎉 تم بنجاح إدراج الصنف: ({p_name})!")
                     st.rerun()
-
-    # 📊 لوحة التقارير والاستعلامات الذكية أونلاين
-    st.write("---")
-    st.markdown("<h2 style='color: #00A884; text-align: center;'>📊 لوحة التقارير والاستعلامات الذكية</h2>", unsafe_allow_html=True)
-    col_q1, col_q2, col_q3 = st.columns(3)
-    col_q4, col_q5, col_q6 = st.columns(3)
-
-    if col_q1.button("🪙 المنتجات الشعبية الاقتصاديّة (< 20 ج.م)"): st.session_state['aq'] = 'q1'
-    if col_q2.button("📈 ترتيب المخزن (من الأغلى للأرخص)"): st.session_state['aq'] = 'q2'
-    if col_q3.button("☕ عرض عائلة ومنتجات النسكافيه"): st.session_state['aq'] = 'q3'
-    if col_q4.button("📊 حساب متوسط أسعار السلع"): st.session_state['aq'] = 'q4'
-    if col_q5.button("💰 حساب القيمة الماليّة للماركت"): st.session_state['aq'] = 'q5'
-    if col_q6.button("🍉 المنتجات المتوسطة (15 إلى 50 ج.م)"): st.session_state['aq'] = 'q6'
-
-    if 'aq' in st.session_state and not df.empty:
-        q = st.session_state['aq']
-        if q == 'q1': st.dataframe(df[df['Price'] < 20.00], use_container_width=True)
-        elif q == 'q2': st.dataframe(df.sort_values(by='Price', ascending=False), use_container_width=True)
-        elif q == 'q3': st.dataframe(df[df['PName'].str.contains('نسكافيه', case=False, na=False)], use_container_width=True)
-        elif q == 'q4': st.metric("متوسط أسعار السلع", f"{round(df['Price'].mean(), 2)} ج.م")
-        elif q == 'q5': st.metric("إجمالي رأس مال المخزن", f"{df['Price'].sum()} ج.م")
-        elif q == 'q6': st.dataframe(df[df['Price'].between(15.00, 50.00)], use_container_width=True)
