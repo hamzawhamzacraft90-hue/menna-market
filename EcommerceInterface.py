@@ -24,13 +24,13 @@ dark_modern_style = """
     }
     .login-box {
         background-color: #111B21;
-        border: 2px solid #00A884;
+        border: 2px dashed #25D366; /* خط متقطع دعابي */
         border-radius: 15px;
         padding: 30px;
         max-width: 500px;
         margin: 50px auto;
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 168, 132, 0.3);
+        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2);
     }
     [data-testid="metric-container"] {
         background-color: #111B21 !important;
@@ -94,34 +94,34 @@ if 'cloud_db' not in st.session_state:
 
 df = st.session_state['cloud_db']
 
-# 4. شاشة حظر الدخول والتحقق (بوابة عيال دعاء الملكية)
+# 4. شاشة حظر الدخول الهزلية (كمين عيال دعاء)
 if 'authenticated_user' not in st.session_state:
     st.markdown("<div class='login-box'>", unsafe_allow_html=True)
-    st.markdown("<h2 style='color: #00A884; font-weight: 800;'>🔒 بوابة التحقق الأمنية</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #8696A0;'>عفواً، لوحة التحكم مشفرة ومخصصة للعائلة فقط.</p>", unsafe_allow_html=True)
+    st.markdown("<h2 style='color: #25D366; font-weight: 800;'>🚦 كمين عيال دعاء الملكي</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #8696A0; font-size: 1.1rem;'>اثبت مكانك يا قمر! 👋 السيستم ده سري ومخصص للعايلة فقط.. قولي الأول:</p>", unsafe_allow_html=True)
     st.write("---")
     
-    # السؤال السحري
+    # السؤال الفكاهي
     selected_child = st.selectbox(
-        "🤔 قولي بقا.. أنت ابن مين من عيال دعاء؟", 
-        ["اختر اسمك من القائمة للحساب..", "1- منة", "2- يمنى", "3- عبد الحميد", "4- حمزة", "5- علي"]
+        "🤔 أنت ابن مين من عيال دعاء؟", 
+        ["اضغط هنا واثبت هويتك حالا..", "1- منة", "2- يمنى", "3- عبد الحميد", "4- حمزة", "5- علي"]
     )
     
-    if st.button("🚀 دخول لوحة التحكم"):
-        if selected_child != "اختر اسمك من القائمة للحساب..":
+    if st.button("🚀 ارفع الحاجز وافتح المخزن"):
+        if selected_child != "اضغط هنا واثبت هويتك حالا..":
             # تنظيف الاسم المعروض
             clean_name = selected_child.split("- ")[1]
             st.session_state['authenticated_user'] = f"الإدارة: {clean_name}"
             st.session_state['last_login_time'] = datetime.now().strftime("%H:%M:%S")
             st.session_state['total_visitors'] += 1
-            st.success(f"مرحباً بك يا {clean_name}! جاري فتح السجلات الملكية...")
+            st.success(f"🎉 أحلى مسا عليك يا {clean_name}! السيستم بيفتح عشانك مخصوص حالا...")
             st.rerun()
         else:
-            st.error("❌ عيب كدة! لازم تختار اسمك الأول عشان السيستم يعرفك!")
+            st.error("❌ رايح فين! اختار اسمك الأول بلاش كسل عشان الكمين يعديك!")
             
     st.markdown("</div>", unsafe_allow_html=True)
 
-# 5. عرض لوحة التحكم الأصلية فقط في حالة اختيار الاسم
+# 5. عرض لوحة التحكم بعد اختيار الاسم
 else:
     # هيدر الموقع الرسمي لـ ELRAWY MARKET
     st.markdown("<div class='main-header'><h1 style='color: #FFFFFF; font-weight:900; letter-spacing: 2px; margin:0;'>🟢 ELRAWY MARKET</h1><p style='color: #00A884; font-weight:600; margin:5px 0 0 0;'>ENTERPRISE MANAGEMENT SYSTEM</p></div>", unsafe_allow_html=True)
@@ -130,11 +130,11 @@ else:
     st.markdown("<h5 style='color: #8696A0; margin-bottom: 15px;'>🛡️ سجل نشاط حركة النظام الحية:</h5>", unsafe_allow_html=True)
     col_v1, col_v2, col_v3 = st.columns(3)
     with col_v1:
-        st.metric(label="👥 إجمالي عدد مستخدمي اللوحة حالياً", value=f"{st.session_state['total_visitors']} عضو")
+        st.metric(label="👥 إجمالي عدد فتحات اللوحة", value=f"{st.session_state['total_visitors']} مرة")
     with col_v2:
-        st.metric(label="👤 آخر حساب سجل دخول حقيقي", value=st.session_state['authenticated_user'])
+        st.metric(label="👤 آخر واحد من العيلة مسك الشغل", value=st.session_state['authenticated_user'])
     with col_v3:
-        st.metric(label="⏰ توقيت الدخول المعتمد للكسر", value=st.session_state['last_login_time'])
+        st.metric(label="⏰ ساعة كبس الدخول بالثانية", value=st.session_state['last_login_time'])
 
     st.write("---")
 
