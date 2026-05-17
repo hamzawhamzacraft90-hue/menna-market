@@ -98,12 +98,13 @@ df = st.session_state['cloud_db']
 if 'authenticated_user' not in st.session_state:
     st.markdown("<div class='login-box'>", unsafe_allow_html=True)
     st.markdown("<h2 style='color: #25D366; font-weight: 800;'>🚦 كمين عيال دعاء الملكي</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #8696A0; font-size: 1.1rem;'>اثبت مكانك يا قمر! 👋 السيستم ده سري ومخصص للعايلة فقط.. قولي الأول:</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #8696A0; font-size: 1.1rem;'>..اثبت مكانك يا قمر! 👋 السيستم ده سري ومخصص للعايلة فقط..  :</p>", unsafe_allow_html=True)
+
     st.write("---")
     
     # السؤال الفكاهي
     selected_child = st.selectbox(
-        "🤔 أنت ابن مين من عيال دعاء؟", 
+        "🤔 أنت ابن مين من عيال دعاء يلا؟", 
         ["اضغط هنا واثبت هويتك حالا..", "1- منة", "2- يمنى", "3- عبد الحميد", "4- حمزة", "5- علي"]
     )
     
