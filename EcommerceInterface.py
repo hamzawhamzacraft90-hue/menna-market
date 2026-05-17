@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # 1. إعدادات الصفحة الاحترافية (Dark Mode فخم جداً)
-st.set_page_config(page_title="MENNA BEH MARKET - لوحة التحكم الرقمية", page_icon="🟢", layout="wide")
+st.set_page_config(page_title="ELRAWY  MARKET - لوحة التحكم الرقمية", page_icon="🟢", layout="wide")
 
 # 2. حقن ستايل الـ Dark Cyber-WhatsApp الحديث والمبهر جداً
 dark_modern_style = """
@@ -80,7 +80,7 @@ if 'cloud_db' not in st.session_state:
 
 df = st.session_state['cloud_db']
 
-st.markdown("<div class='main-header'><h1 style='color: #FFFFFF; font-weight:900; letter-spacing: 2px; margin:0;'>🟢 MENNA BEH MARKET #3al daek</h1><p style='color: #00A884; font-weight:600; margin:5px 0 0 0;'>ENTERPRISE MANAGEMENT SYSTEM</p></div>", unsafe_allow_html=True)
+st.markdown("<div class='main-header'><h1 style='color: #FFFFFF; font-weight:900; letter-spacing: 2px; margin:0;'>🟢 ELRAWAY MARKET #"شارع النميس"</h1><p style='color: #00A884; font-weight:600; margin:5px 0 0 0;'>ENTERPRISE MANAGEMENT SYSTEM</p></div>", unsafe_allow_html=True)
 tab1, tab2 = st.tabs(["📋 لوحة التحكم الرقمية", "➕ إضافة صنف جديد"])
 
 with tab1:
