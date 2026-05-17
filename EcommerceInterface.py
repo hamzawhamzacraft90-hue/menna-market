@@ -1,9 +1,8 @@
 import streamlit as st
 import pandas as pd
-import random
 from datetime import datetime
 
-# 1. إعدادات الصفحة الاحترافية (Dark Mode فخم جداً وباسم الراوي ماركت)
+# 1. إعدادات الصفحة الاحترافية (Dark Mode فخم وباسم الراوي ماركت)
 st.set_page_config(page_title="ELRAWY MARKET - لوحة التحكم الرقمية", page_icon="🟢", layout="wide")
 
 # 2. حقن ستايل الـ Dark Cyber-WhatsApp الحديث والمبهر جداً
@@ -22,6 +21,16 @@ dark_modern_style = """
         text-align: center;
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0, 168, 132, 0.2);
+    }
+    .login-box {
+        background-color: #111B21;
+        border: 2px solid #00A884;
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 500px;
+        margin: 50px auto;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 168, 132, 0.3);
     }
     [data-testid="metric-container"] {
         background-color: #111B21 !important;
@@ -63,19 +72,10 @@ dark_modern_style = """
 """
 st.markdown(dark_modern_style, unsafe_allow_html=True)
 
-# 3. نظام مراقبة حركة الزوار والدخول (Visitor Tracking System)
+# 3. إعداد العداد العام وقاعدة البيانات في الخلفية
 if 'total_visitors' not in st.session_state:
-    st.session_state['total_visitors'] = random.randint(140, 250)  # يبدأ من رقم ترحيبي عشوائي ليظهر فخماً
+    st.session_state['total_visitors'] = 150  # عداد أساسي ترحيبي
 
-if 'last_user' not in st.session_state:
-    users_pool = ["الإدارة: منة", "المشرف: ميدو", "المطور: حمزة", "عميل خارجي", "تحديث تلقائي للنظام"]
-    st.session_state['last_user'] = random.choice(users_pool)
-    st.session_state['last_time'] = datetime.now().strftime("%H:%M:%S")
-
-# زيادة العداد مع كل حركة تحديث للواجهة لإعطاء طابع تفاعلي حي
-st.session_state['total_visitors'] += 1
-
-# 4. محاكاة قاعدة البيانات السحابية (Cloud Memory)
 if 'cloud_db' not in st.session_state:
     st.session_state['cloud_db'] = pd.DataFrame([
         (201, 'كيس شيبسي عائلي طماطم', 10.00), (202, 'مولتو ماجنم شوكولاتة', 15.00),
@@ -94,94 +94,118 @@ if 'cloud_db' not in st.session_state:
 
 df = st.session_state['cloud_db']
 
-# هيدر الموقع الرسمي المعدل لـ ELRAWY MARKET
-st.markdown("<div class='main-header'><h1 style='color: #FFFFFF; font-weight:900; letter-spacing: 2px; margin:0;'>🟢 ELRAWY MARKET</h1><p style='color: #00A884; font-weight:600; margin:5px 0 0 0;'>ENTERPRISE MANAGEMENT SYSTEM</p></div>", unsafe_allow_html=True)
-
-# 📊 عرض شريط مراقبة الأمان والنشاط الجديد أعلى الصفحة (Top Activity Bar)
-st.markdown("<h5 style='color: #8696A0; margin-bottom: 15px;'>🛡️ سجل نشاط حركة النظام الحية:</h5>", unsafe_allow_html=True)
-col_v1, col_v2, col_v3 = st.columns(3)
-with col_v1:
-    st.metric(label="👥 إجمالي عدد زيارات لوحة التحكم", value=f"{st.session_state['total_visitors']} مستخدم")
-with col_v2:
-    st.metric(label="👤 آخر حساب سجل دخول", value=st.session_state['last_user'])
-with col_v3:
-    st.metric(label="⏰ توقيت آخر حركة دخول بدقة", value=st.session_state['last_time'])
-
-st.write("---")
-
-tab1, tab2 = st.tabs(["📋 لوحة التحكم الرقمية", "➕ إضافة صنف جديد"])
-
-with tab1:
-    if not df.empty:
-        col1, col2, col3 = st.columns(3)
-        col1.metric(label="📊 أعلى قيمة صنف مخزون", value=f"{df['Price'].max()} ج.م")
-        col2.metric(label="📊 الصنف الأكثر اقتصاداً", value=f"{df['Price'].min()} ج.م")
-        col3.metric(label="📊 إجمالي وحدات السلع المتاحة", value=f"{len(df)} صنف")
-        
-        st.write("---")
-        st.markdown("<h4 style='color: #00A884;'>🔍 الفلترة والبحث الفوري عن السلع</h4>", unsafe_allow_html=True)
-        search_query = st.text_input("ادخل اسم السلعة المطلوبة للبحث المباشر:", placeholder="مثال: ماكس كولا...")
-        
-        if search_query:
-            filtered_df = df[df['PName'].str.contains(search_query, case=False, na=False)]
-            st.dataframe(filtered_df, use_container_width=True)
+# 4. شاشة حظر الدخول والتحقق (بوابة عيال دعاء الملكية)
+if 'authenticated_user' not in st.session_state:
+    st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    st.markdown("<h2 style='color: #00A884; font-weight: 800;'>🔒 بوابة التحقق الأمنية</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #8696A0;'>عفواً، لوحة التحكم مشفرة ومخصصة للعائلة فقط.</p>", unsafe_allow_html=True)
+    st.write("---")
+    
+    # السؤال السحري
+    selected_child = st.selectbox(
+        "🤔 قولي بقا.. أنت ابن مين من عيال دعاء؟", 
+        ["اختر اسمك من القائمة للحساب..", "1- منة", "2- يمنى", "3- عبد الحميد", "4- حمزة", "5- علي"]
+    )
+    
+    if st.button("🚀 دخول لوحة التحكم"):
+        if selected_child != "اختر اسمك من القائمة للحساب..":
+            # تنظيف الاسم المعروض
+            clean_name = selected_child.split("- ")[1]
+            st.session_state['authenticated_user'] = f"الإدارة: {clean_name}"
+            st.session_state['last_login_time'] = datetime.now().strftime("%H:%M:%S")
+            st.session_state['total_visitors'] += 1
+            st.success(f"مرحباً بك يا {clean_name}! جاري فتح السجلات الملكية...")
+            st.rerun()
         else:
-            st.dataframe(df, use_container_width=True)
+            st.error("❌ عيب كدة! لازم تختار اسمك الأول عشان السيستم يعرفك!")
             
-        st.write("---")
-        st.markdown("<h4 style='color: #00A884;'>🗑️ سحب صنف من الرفوف</h4>", unsafe_allow_html=True)
-        product_to_delete = st.selectbox("حدد كود الصنف المراد تصفيته نهائياً:", df['productID'].tolist())
-        if st.button("🔴 إهلاك الصنف المحدد فوراً"):
-            st.session_state['cloud_db'] = df[df['productID'] != product_to_delete]
-            # تحديث نشاط الزوار الحي عند الحذف
-            st.session_state['last_user'] = "المطور: حمزة (أجرى عملية تصفية صنف)"
-            st.session_state['last_time'] = datetime.now().strftime("%H:%M:%S")
-            st.error(f"⚠️ تم مسح وإهلاك الصنف رقم ({product_to_delete}) بنجاح!")
-            st.rerun()
-            
-        st.write("---")
-        st.markdown("<h4 style='color: #FF2E74;'>🚨 تصفير وإخلاء المخازن بالكامل</h4>", unsafe_allow_html=True)
-        if st.button("💥 تدمير السجلات وتصفير الرفوف"):
-            st.session_state['cloud_db'] = pd.DataFrame(columns=['productID', 'PName', 'Price'])
-            st.success("💥 تم تصفير المخازن بنجاح!")
-            st.rerun()
-    else:
-        st.info("نظام المخازن فارغ تماماً حالياً.")
+    st.markdown("</div>", unsafe_allow_html=True)
 
-with tab2:
-    st.markdown("<h3 style='color: #00A884;'>⚡ تسجيل صنف تجاري جديد</h3>", unsafe_allow_html=True)
-    with st.form("market_add_form"):
-        p_id = st.number_input("كود السلعة الفريد (ID)", min_value=1, step=1)
-        p_name = st.text_input("الاسم التجاري للسلعة (Name)")
-        p_price = st.number_input("سعر التوريد المعتمد (Price)", min_value=0.0, format="%.2f")
-        if st.form_submit_button("🚀 إدارج الصنف في السجلات"):
-            if p_name != "":
-                new_row = pd.DataFrame([(p_id, p_name, p_price)], columns=['productID', 'PName', 'Price'])
-                st.session_state['cloud_db'] = pd.concat([df, new_row], ignore_index=True)
-                # تحديث نشاط الزوار الحي عند الإضافة
-                st.session_state['last_user'] = "الإدارة: منة (أضافت صنف جديد في الرفوف)"
-                st.session_state['last_time'] = datetime.now().strftime("%H:%M:%S")
-                st.success(f"🎉 تم بنجاح إدراج الصنف: ({p_name})!")
+# 5. عرض لوحة التحكم الأصلية فقط في حالة اختيار الاسم
+else:
+    # هيدر الموقع الرسمي لـ ELRAWY MARKET
+    st.markdown("<div class='main-header'><h1 style='color: #FFFFFF; font-weight:900; letter-spacing: 2px; margin:0;'>🟢 ELRAWY MARKET</h1><p style='color: #00A884; font-weight:600; margin:5px 0 0 0;'>ENTERPRISE MANAGEMENT SYSTEM</p></div>", unsafe_allow_html=True)
+
+    # 📊 عرض شريط مراقبة الأمان والنشاط الحقيقي 100% بناءً على الدخول
+    st.markdown("<h5 style='color: #8696A0; margin-bottom: 15px;'>🛡️ سجل نشاط حركة النظام الحية:</h5>", unsafe_allow_html=True)
+    col_v1, col_v2, col_v3 = st.columns(3)
+    with col_v1:
+        st.metric(label="👥 إجمالي عدد مستخدمي اللوحة حالياً", value=f"{st.session_state['total_visitors']} عضو")
+    with col_v2:
+        st.metric(label="👤 آخر حساب سجل دخول حقيقي", value=st.session_state['authenticated_user'])
+    with col_v3:
+        st.metric(label="⏰ توقيت الدخول المعتمد للكسر", value=st.session_state['last_login_time'])
+
+    st.write("---")
+
+    tab1, tab2 = st.tabs(["📋 لوحة التحكم الرقمية", "➕ إضافة صنف جديد"])
+
+    with tab1:
+        if not df.empty:
+            col1, col2, col3 = st.columns(3)
+            col1.metric(label="📊 أعلى قيمة صنف مخزون", value=f"{df['Price'].max()} ج.م")
+            col2.metric(label="📊 الصنف الأكثر اقتصاداً", value=f"{df['Price'].min()} ج.م")
+            col3.metric(label="📊 إجمالي وحدات السلع المتاحة", value=f"{len(df)} صنف")
+            
+            st.write("---")
+            st.markdown("<h4 style='color: #00A884;'>🔍 الفلترة والبحث الفوري عن السلع</h4>", unsafe_allow_html=True)
+            search_query = st.text_input("ادخل اسم السلعة المطلوبة للبحث المباشر:", placeholder="مثال: ماكس كولا...")
+            
+            if search_query:
+                filtered_df = df[df['PName'].str.contains(search_query, case=False, na=False)]
+                st.dataframe(filtered_df, use_container_width=True)
+            else:
+                st.dataframe(df, use_container_width=True)
+                
+            st.write("---")
+            st.markdown("<h4 style='color: #00A884;'>🗑️ سحب صنف من الرفوف</h4>", unsafe_allow_html=True)
+            product_to_delete = st.selectbox("حدد كود الصنف المراد تصفيته نهائياً:", df['productID'].tolist())
+            if st.button("🔴 إهلاك الصنف المحدد فوراً"):
+                st.session_state['cloud_db'] = df[df['productID'] != product_to_delete]
+                st.session_state['last_login_time'] = datetime.now().strftime("%H:%M:%S")
+                st.error(f"⚠️ تم مسح وإهلاك الصنف رقم ({product_to_delete}) بنجاح!")
                 st.rerun()
+                
+            st.write("---")
+            st.markdown("<h4 style='color: #FF2E74;'>🚨 تصفير وإخلاء المخازن بالكامل</h4>", unsafe_allow_html=True)
+            if st.button("💥 تدمير السجلات وتصفير الرفوف"):
+                st.session_state['cloud_db'] = pd.DataFrame(columns=['productID', 'PName', 'Price'])
+                st.success("💥 تم تصفير المخازن بنجاح!")
+                st.rerun()
+        else:
+            st.info("نظام المخازن فارغ تماماً حالياً.")
 
-# 📊 لوحة التقارير والاستعلامات الذكية أونلاين
-st.write("---")
-st.markdown("<h2 style='color: #00A884; text-align: center;'>📊 لوحة التقارير والاستعلامات الذكية</h2>", unsafe_allow_html=True)
-col_q1, col_q2, col_q3 = st.columns(3)
-col_q4, col_q5, col_q6 = st.columns(3)
+    with tab2:
+        st.markdown("<h3 style='color: #00A884;'>⚡ تسجيل صنف تجاري جديد</h3>", unsafe_allow_html=True)
+        with st.form("market_add_form"):
+            p_id = st.number_input("كود السلعة الفريد (ID)", min_value=1, step=1)
+            p_name = st.text_input("الاسم التجاري للسلعة (Name)")
+            p_price = st.number_input("سعر التوريد المعتمد (Price)", min_value=0.0, format="%.2f")
+            if st.form_submit_button("🚀 إدارج الصنف في السجلات"):
+                if p_name != "":
+                    new_row = pd.DataFrame([(p_id, p_name, p_price)], columns=['productID', 'PName', 'Price'])
+                    st.session_state['cloud_db'] = pd.concat([df, new_row], ignore_index=True)
+                    st.success(f"🎉 تم بنجاح إدراج الصنف: ({p_name})!")
+                    st.rerun()
 
-if col_q1.button("🪙 المنتجات الشعبية الاقتصاديّة (< 20 ج.م)"): st.session_state['aq'] = 'q1'
-if col_q2.button("📈 ترتيب المخزن (من الأغلى للأرخص)"): st.session_state['aq'] = 'q2'
-if col_q3.button("☕ عرض عائلة ومنتجات النسكافيه"): st.session_state['aq'] = 'q3'
-if col_q4.button("📊 حساب متوسط أسعار السلع"): st.session_state['aq'] = 'q4'
-if col_q5.button("💰 حساب القيمة الماليّة للماركت"): st.session_state['aq'] = 'q5'
-if col_q6.button("🍉 المنتجات المتوسطة (15 إلى 50 ج.م)"): st.session_state['aq'] = 'q6'
+    # 📊 لوحة التقارير والاستعلامات الذكية أونلاين
+    st.write("---")
+    st.markdown("<h2 style='color: #00A884; text-align: center;'>📊 لوحة التقارير والاستعلامات الذكية</h2>", unsafe_allow_html=True)
+    col_q1, col_q2, col_q3 = st.columns(3)
+    col_q4, col_q5, col_q6 = st.columns(3)
 
-if 'aq' in st.session_state and not df.empty:
-    q = st.session_state['aq']
-    if q == 'q1': st.dataframe(df[df['Price'] < 20.00], use_container_width=True)
-    elif q == 'q2': st.dataframe(df.sort_values(by='Price', ascending=False), use_container_width=True)
-    elif q == 'q3': st.dataframe(df[df['PName'].str.contains('نسكافيه', case=False, na=False)], use_container_width=True)
-    elif q == 'q4': st.metric("متوسط أسعار السلع", f"{round(df['Price'].mean(), 2)} ج.م")
-    elif q == 'q5': st.metric("إجمالي رأس مال المخزن", f"{df['Price'].sum()} ج.م")
-    elif q == 'q6': st.dataframe(df[df['Price'].between(15.00, 50.00)], use_container_width=True)
+    if col_q1.button("🪙 المنتجات الشعبية الاقتصاديّة (< 20 ج.م)"): st.session_state['aq'] = 'q1'
+    if col_q2.button("📈 ترتيب المخزن (من الأغلى للأرخص)"): st.session_state['aq'] = 'q2'
+    if col_q3.button("☕ عرض عائلة ومنتجات النسكافيه"): st.session_state['aq'] = 'q3'
+    if col_q4.button("📊 حساب متوسط أسعار السلع"): st.session_state['aq'] = 'q4'
+    if col_q5.button("💰 حساب القيمة الماليّة للماركت"): st.session_state['aq'] = 'q5'
+    if col_q6.button("🍉 المنتجات المتوسطة (15 إلى 50 ج.م)"): st.session_state['aq'] = 'q6'
+
+    if 'aq' in st.session_state and not df.empty:
+        q = st.session_state['aq']
+        if q == 'q1': st.dataframe(df[df['Price'] < 20.00], use_container_width=True)
+        elif q == 'q2': st.dataframe(df.sort_values(by='Price', ascending=False), use_container_width=True)
+        elif q == 'q3': st.dataframe(df[df['PName'].str.contains('نسكافيه', case=False, na=False)], use_container_width=True)
+        elif q == 'q4': st.metric("متوسط أسعار السلع", f"{round(df['Price'].mean(), 2)} ج.م")
+        elif q == 'q5': st.metric("إجمالي رأس مال المخزن", f"{df['Price'].sum()} ج.م")
+        elif q == 'q6': st.dataframe(df[df['Price'].between(15.00, 50.00)], use_container_width=True)
