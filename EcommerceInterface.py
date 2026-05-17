@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # 1. إعدادات الصفحة الاحترافية (Dark Mode فخم جداً)
-st.set_page_config(page_title="YOUMNA MARKET - لوحة التحكم الرقمية", page_icon="🟢", layout="wide")
+st.set_page_config(page_title="MENNA BEH MARKET - لوحة التحكم الرقمية", page_icon="🟢", layout="wide")
 
 # 2. حقن ستايل الـ Dark Cyber-WhatsApp الحديث والمبهر جداً
 dark_modern_style = """
